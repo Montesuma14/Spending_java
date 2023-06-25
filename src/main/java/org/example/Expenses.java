@@ -41,7 +41,7 @@ public class Expenses {
          String type = this.TypesOfExpens.get(command-1);
          System.out.println("Сколько вы потратили?");
          double cost = SupportC.isSumm();
-         getExpenses().add(new Expense(date, type, cost ));
+         setNewExpens(new Expense(date, type, cost ));
          System.out.println("Отлично! Ваш расход добавлен!");
          System.out.println(date + " " + type + " " + cost);
 
@@ -59,7 +59,7 @@ public class Expenses {
         String type = this.TypesOfExpens.get(command-1);
         System.out.println("Сколько вы потратили?");
         double cost = SupportC.isSumm();
-        getExpenses().add(new Expense(date, type, cost ));
+        setNewExpens(new Expense(date, type, cost ));
         System.out.println("Отлично! Ваш расход добавлен!");
         System.out.println(date + " " + type + " " + cost);
 
@@ -87,12 +87,15 @@ public class Expenses {
         }
     }
 
+
+    //Вывести все расходы пользователя
     public void printAllExpenses(User user){
         for (Expense expense: getExpenses()){
             System.out.println(expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
         }
     }
 
+    //Добавление нового расхода в порядке возрастания даты
     private void setNewExpens(Expense expense){
 
         for (int i = 0; i < getExpenses().size(); i++){
