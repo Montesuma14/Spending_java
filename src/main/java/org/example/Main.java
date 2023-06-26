@@ -108,7 +108,7 @@ public class Main {
                 return 2;
             }
             case 3: {
-                user.expenses.printAllExpenses(user);
+                user.expenses.printAllExpenses();
                 return 2;
             }
             case 4:{
