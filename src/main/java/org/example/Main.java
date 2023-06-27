@@ -105,10 +105,18 @@ public class Main {
                 return 2;
 
             case 2: {
+                System.out.println("Какой расход вы хотите изменить/далить?");
+                user.expenses.printAllExpenses();
+                ChouseDeleteExpense(SupportC.take_command_and_check(user.expenses.getExpenses().size()), user);
+                System.out.println();
                 return 2;
             }
             case 3: {
-                user.expenses.printAllExpenses(user);
+                System.out.println();
+                System.out.println();
+                user.expenses.printAllExpenses();
+                System.out.println();
+                System.out.println();
                 return 2;
             }
             case 4:{
@@ -119,4 +127,28 @@ public class Main {
         return 2;
 
     }
+
+    public static void ChouseDeleteExpense(int i, User user  ){
+        System.out.println("Хотите удалить или изменить расход?");
+        System.out.println("1.Удалить.");
+        System.out.println("2.Изменить.");
+        int command = SupportC.take_command_and_check(2);
+        if (command == 1) {
+            user.expenses.getExpenses().remove(i - 1);
+
+        }
+        else{
+            System.out.println("Пока без реализации.");
+
+        }
+    }
+
+
+
+
+
+
+
+
+
 }

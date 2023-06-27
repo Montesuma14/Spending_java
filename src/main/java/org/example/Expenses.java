@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 public class Expenses {
 
+    //Список расходов
     private  ArrayList<Expense> expenses;
+    //Типы расходов
     private ArrayList<String> TypesOfExpens;
 
 
@@ -89,11 +91,17 @@ public class Expenses {
 
 
     //Вывести все расходы пользователя
-    public void printAllExpenses(User user){
+    public void printAllExpenses(){
+        int i = 0;
         for (Expense expense: getExpenses()){
-            System.out.println(expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
+            i++;
+            System.out.println(i + "___" + expense.getDate() + "___" + expense.getType() + "___" + expense.getCoast());
         }
     }
+
+
+
+
 
     //Добавление нового расхода в порядке возрастания даты
     private void setNewExpens(Expense expense){
@@ -110,13 +118,10 @@ public class Expenses {
 
 
 
-
-
-
     //Отобразить текущие категории трат
      public void SearchTypeExp(){
         for (int i = 0; i < this.TypesOfExpens.size(); i++){
-            System.out.println(i + ". " + this.TypesOfExpens.get(i));
+            System.out.println((i + 1) + ". " + this.TypesOfExpens.get(i));
         }
      }
 
