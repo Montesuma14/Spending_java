@@ -92,14 +92,21 @@ public class Expenses {
 
     //Вывести все расходы пользователя
     public void printAllExpenses(){
+        System.out.println();
+        System.out.println();
         int i = 0;
         for (Expense expense: getExpenses()){
             i++;
-            System.out.println(i + "___" + expense.getDate() + "___" + expense.getType() + "___" + expense.getCoast());
+            System.out.println(i + ".___" + expense.getDate() + "___" + expense.getType() + "___" + expense.getCoast());
         }
+        System.out.println();
+        System.out.println();
     }
 
-
+    //Получить расход по индексу
+    public String printExpense(int i){
+        return i + "___" + getExpenses().get(i).getDate() + "___" + getExpenses().get(i).getType() + "___" + getExpenses().get(i).getCoast();
+    }
 
 
 

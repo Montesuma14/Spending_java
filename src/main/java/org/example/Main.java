@@ -101,22 +101,19 @@ public class Main {
                 else
                     user.expenses.addExpenseAnyDay();
 
-                }
                 return 2;
+                }
+
 
             case 2: {
-                System.out.println("Какой расход вы хотите изменить/далить?");
+                System.out.println("Какой расход вы хотите изменить/далить? (Введите номер расхода)");
                 user.expenses.printAllExpenses();
-                ChouseDeleteExpense(SupportC.take_command_and_check(user.expenses.getExpenses().size()), user);
+                chooseDeleteExpense(SupportC.take_command_and_check(user.expenses.getExpenses().size()) - 1, user);
                 System.out.println();
                 return 2;
             }
             case 3: {
-                System.out.println();
-                System.out.println();
                 user.expenses.printAllExpenses();
-                System.out.println();
-                System.out.println();
                 return 2;
             }
             case 4:{
@@ -128,17 +125,43 @@ public class Main {
 
     }
 
-    public static void ChouseDeleteExpense(int i, User user  ){
-        System.out.println("Хотите удалить или изменить расход?");
+    //Метод изменения или удаления записи расходов
+    public static void chooseDeleteExpense(int nomberOfPozition, User user  ){
+        System.out.print("Хотите удалить или изменить расход? ");
+        System.out.println(user.expenses.printExpense(nomberOfPozition));
         System.out.println("1.Удалить.");
         System.out.println("2.Изменить.");
         int command = SupportC.take_command_and_check(2);
         if (command == 1) {
-            user.expenses.getExpenses().remove(i - 1);
+            user.expenses.getExpenses().remove(nomberOfPozition);
 
         }
         else{
-            System.out.println("Пока без реализации.");
+
+            System.out.println("Что вы хотите отредактировать?");
+            System.out.println("1. Сумму.");
+            System.out.println("2. Категорию.");
+            System.out.println("3. Дату.");
+            command = SupportC.take_command_and_check(3);
+            switch (command){
+                case 1:{
+                    System.out.println("Какую сумму вы хотите установить?");
+                    double cost = SupportC.isSumm();
+                    user.expenses.getExpenses().get(nomberOfPozition).setCoast(cost);
+                    System.out.println("Сумма успешно изменена!");
+
+                }
+
+
+                case 2: {
+                }
+                case 3: {
+
+
+                }
+
+
+            }
 
         }
     }
