@@ -5,11 +5,12 @@ public class SupportC {
 
 
 
-
+    // Проверка строки на число, удовлетворяющего значению суммы.
     public static double isSumm() throws NumberFormatException {
-        String summ = inLine();
+        String summ;
         while (true)
         {
+            summ = inLine();
             if (isDigit(summ) || isDouble(summ))
             {
                 if (isDigit(summ))
@@ -24,6 +25,7 @@ public class SupportC {
 
     }
 
+    //Проверка, является ли строка числом дабл
     public static boolean isDouble(String s) throws NumberFormatException {
         try {
             Double.parseDouble(s);
@@ -33,6 +35,7 @@ public class SupportC {
         }
     }
 
+    //Проверка, является ли строка числом интовым
     public static boolean isDigit(String s) throws NumberFormatException {
         try {
             Integer.parseInt(s);
@@ -66,6 +69,7 @@ public class SupportC {
         }
     }
 
+    //Проверка, доступно ли следующая строка в потоке(?)
     public static String inLine(){
 
         Scanner sc = new Scanner(System.in);
