@@ -154,6 +154,9 @@ public class Main {
 
 
                 case 2: {
+                    System.out.println("Какую категорию вы хотите установить?");
+                    user.expenses.SearchTypeExp();
+
                 }
                 case 3: {
 

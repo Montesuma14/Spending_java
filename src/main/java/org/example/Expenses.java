@@ -89,7 +89,7 @@ public class Expenses {
 
 
     //Вывести все расходы пользователя
-    public void printAllExpenses(User user){
+    public void printAllExpenses(){
         for (Expense expense: getExpenses()){
             System.out.println(expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
         }
@@ -110,7 +110,9 @@ public class Expenses {
 
 
 
-
+    public String printExpense(int i){
+        return i + "___" + getExpenses().get(i).getDate() + "___" + getExpenses().get(i).getType() + "___" + getExpenses().get(i).getCoast();
+    }
 
 
     //Отобразить текущие категории трат
