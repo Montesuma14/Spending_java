@@ -1,5 +1,7 @@
 package org.example;
 
+import java.time.LocalDate;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
@@ -144,6 +146,7 @@ public class Main {
             System.out.println("3. Дату.");
             command = SupportC.take_command_and_check(3);
             switch (command){
+                //Изменение суммы у выбранной позиции
                 case 1:{
                     System.out.println("Какую сумму вы хотите установить?");
                     double cost = SupportC.isSumm();
@@ -152,13 +155,19 @@ public class Main {
 
                 }
 
-
+                //Изменение категории трат у выбранной позиции.
                 case 2: {
                     System.out.println("Какую категорию вы хотите установить?");
                     user.expenses.SearchTypeExp();
+                    command = SupportC.take_command_and_check(user.expenses.getTypesOfExpens().size());
+                    user.expenses.getExpenses().get(nomberOfPozition).setType(user.expenses.getTypesOfExpens().get(command - 1));
 
                 }
+
+                //Изменение даты у выбранной позиции
                 case 3: {
+                    System.out.println("На какаю дату вы хотите изменить текущую дату?");
+                    System.out.println();
 
 
                 }

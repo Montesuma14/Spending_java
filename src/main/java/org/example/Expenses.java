@@ -90,8 +90,9 @@ public class Expenses {
 
     //Вывести все расходы пользователя
     public void printAllExpenses(){
-        for (Expense expense: getExpenses()){
-            System.out.println(expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
+        for (int i = 0; i < expenses.size(); i++){
+            Expense expense = expenses.get(i);
+            System.out.println(i +". "+ expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
         }
     }
 
