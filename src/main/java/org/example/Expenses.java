@@ -92,7 +92,7 @@ public class Expenses {
     public void printAllExpenses(){
         for (int i = 0; i < expenses.size(); i++){
             Expense expense = expenses.get(i);
-            System.out.println(i +". "+ expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
+            System.out.println((i+1) +". "+ expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
         }
     }
 
@@ -119,7 +119,7 @@ public class Expenses {
     //Отобразить текущие категории трат
      public void SearchTypeExp(){
         for (int i = 0; i < this.TypesOfExpens.size(); i++){
-            System.out.println(i + ". " + this.TypesOfExpens.get(i));
+            System.out.println((i +1) + ". " + this.TypesOfExpens.get(i));
         }
      }
 
