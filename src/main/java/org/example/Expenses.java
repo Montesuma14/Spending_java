@@ -31,73 +31,9 @@ public class Expenses {
         return this.expenses;
     }
 
-    //Добавить трату за сегодня
-     public  void addExpenseToday(){
-         LocalDate date;
-         date = LocalDate.now();
-         System.out.println("Трату какой категории хотите добавить?");
-         SearchTypeExp();
-         byte command = SupportC.take_command_and_check(this.TypesOfExpens.size());
-         String type = this.TypesOfExpens.get(command-1);
-         System.out.println("Сколько вы потратили?");
-         double cost = SupportC.isSumm();
-         setNewExpens(new Expense(date, type, cost ));
-         System.out.println("Отлично! Ваш расход добавлен!");
-         System.out.println(date + " " + type + " " + cost);
-
-     }
-
-
-    //Добавить трату за любой день этого месяца
-    public  void addExpenseAnyDay(){
-        LocalDate date = LocalDate.now();
-        System.out.println("За какой день этого месяца вы хотите ввести расходы?");
-        date = dateReturn(SupportC.inLine());
-        System.out.println("Трату какой категории хотите добавить?");
-        SearchTypeExp();
-        byte command = SupportC.take_command_and_check(this.TypesOfExpens.size());
-        String type = this.TypesOfExpens.get(command-1);
-        System.out.println("Сколько вы потратили?");
-        double cost = SupportC.isSumm();
-        setNewExpens(new Expense(date, type, cost ));
-        System.out.println("Отлично! Ваш расход добавлен!");
-        System.out.println(date + " " + type + " " + cost);
-
-    }
-
-
-//Ввод дня текущего месяца с клавиатуры с проверками
-    private LocalDate dateReturn(String dateS){
-        LocalDate date = LocalDate.now();
-        while (true) {
-            if (!SupportC.isDigit(dateS)) {
-                System.out.println("Значение не является числом. Введите подходящее значение.");
-                dateS = SupportC.inLine();
-            }
-            else {
-                int day = Integer.parseInt(dateS);
-                //System.out.println(date.getDayOfMonth() + "   " + date.lengthOfMonth());
-                if (day <= 0 || date.getDayOfMonth() < day ){
-                    System.out.println("Значение выходит за диапазон месяца");
-                    dateS = SupportC.inLine();
-                }
-                else return date.withDayOfMonth(day);
-            }
-
-        }
-    }
-
-
-    //Вывести все расходы пользователя
-    public void printAllExpenses(){
-        for (int i = 0; i < expenses.size(); i++){
-            Expense expense = expenses.get(i);
-            System.out.println((i+1) +". "+ expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
-        }
-    }
 
     //Добавление нового расхода в порядке возрастания даты
-    private void setNewExpens(Expense expense){
+    public void setNewExpens(Expense expense){
 
         for (int i = 0; i < getExpenses().size(); i++){
             LocalDate aftDate = getExpenses().get(i).getDate();
@@ -108,21 +44,6 @@ public class Expenses {
         }
         getExpenses().add(expense);
     }
-
-
-
-    public String printExpense(int i){
-        return i + "___" + getExpenses().get(i).getDate() + "___" + getExpenses().get(i).getType() + "___" + getExpenses().get(i).getCoast();
-    }
-
-
-    //Отобразить текущие категории трат
-     public void SearchTypeExp(){
-        for (int i = 0; i < this.TypesOfExpens.size(); i++){
-            System.out.println((i +1) + ". " + this.TypesOfExpens.get(i));
-        }
-     }
-
 
     public void setTypesOfExpens(ArrayList<String> typesOfExpens) {
         TypesOfExpens = typesOfExpens;

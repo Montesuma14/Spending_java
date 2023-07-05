@@ -1,6 +1,10 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.time.*;
+import java.time.format.*;
+
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -94,30 +98,38 @@ public class Main {
             case 1:{
                 System.out.println("Добавить трату за сегодня?");
                 System.out.println("1.Да");
-                System.out.println("2.Нет (ввести дату врчуную этого месяца)");
-                command = SupportC.take_command_and_check(2);
+                System.out.println("2.Ввести дату вручную этого месяца.");
+                System.out.println("3.Ввести любую дату вручную.");
+                command = SupportC.take_command_and_check(3);
                 if (command == 1) {
-                    user.expenses.addExpenseToday();
-
+                    addExpenseToday(user.expenses);
                 }
-                else
-                    user.expenses.addExpenseAnyDay();
+                else if (command == 2)
+                    addExpenseAnyDay(1, user.expenses);
+                else {
+                    System.out.println("Какую дату хотите ввести? \n(Формат даты dd.mm если дата текущего года, если нет, то dd mm yyyy или dd mm, год текущий)");
+                    System.out.println("Например, подходящие варианты 11.01 (11 января) 11.05.2022 и тд.");
+                    addExpenseAnyDay(2, user.expenses);
+                    System.out.println();
+                }
 
                 return 2;
                 }
 
-
+            //.Изменить/Удалить расход(ы).
             case 2: {
-                System.out.println("Какой расход вы хотите изменить/далить? (Введите номер расхода)");
-                user.expenses.printAllExpenses();
+                System.out.println("Какой расход вы хотите изменить/удалить? (Введите номер расхода)");
+                printAllExpenses(user.expenses);
                 chooseDeleteExpense(SupportC.take_command_and_check(user.expenses.getExpenses().size()) - 1, user);
                 System.out.println();
                 return 2;
             }
+            // Получить статистику расходов за период (пока только все).
             case 3: {
-                user.expenses.printAllExpenses();
+                printAllExpenses(user.expenses);
                 return 2;
             }
+            // 4. Выход из ЛК.
             case 4:{
                 return 1;
             }
@@ -130,7 +142,7 @@ public class Main {
     //Метод изменения или удаления записи расходов
     public static void chooseDeleteExpense(int nomberOfPozition, User user  ){
         System.out.print("Хотите удалить или изменить расход? ");
-        System.out.println(user.expenses.printExpense(nomberOfPozition));
+        System.out.println(printExpense(nomberOfPozition, user.expenses));
         System.out.println("1.Удалить.");
         System.out.println("2.Изменить.");
         int command = SupportC.take_command_and_check(2);
@@ -158,7 +170,7 @@ public class Main {
                 //Изменение категории трат у выбранной позиции.
                 case 2: {
                     System.out.println("Какую категорию вы хотите установить?");
-                    user.expenses.SearchTypeExp();
+                    SearchTypeExp(user.expenses);
                     command = SupportC.take_command_and_check(user.expenses.getTypesOfExpens().size());
                     user.expenses.getExpenses().get(nomberOfPozition).setType(user.expenses.getTypesOfExpens().get(command - 1));
 
@@ -178,12 +190,118 @@ public class Main {
         }
     }
 
+    //Добавить трату за сегодня
+    public static   void addExpenseToday(Expenses expenses){
+        LocalDate date;
+        date = LocalDate.now();
+        System.out.println("Трату какой категории хотите добавить?");
+        SearchTypeExp(expenses);
+        byte command = SupportC.take_command_and_check(expenses.getTypesOfExpens().size());
+        String type = expenses.getTypesOfExpens().get(command-1);
+        System.out.println("Сколько вы потратили?");
+        double cost = SupportC.isSumm();
+        expenses.setNewExpens(expenses.new Expense(date, type, cost ));
+        System.out.println("Отлично! Ваш расход добавлен!");
+        System.out.println(date + " " + type + " " + cost);
+    }
 
 
+    //Вывести определенный расход
+    public static String printExpense(int i, Expenses expenses){
+        Expenses.Expense expense = expenses.getExpenses().get(i);
+        return i + "___" + expense.getDate() + "___" + expense.getType() + "___" + expense.getCoast();
+    }
+
+    //Отобразить текущие категории трат
+    public static void SearchTypeExp(Expenses expenses){
+        ArrayList<String> types = expenses.getTypesOfExpens();
+        for (int i = 0; i < types.size(); i++){
+            System.out.println((i +1) + ". " + types.get(i));
+        }
+    }
 
 
+    //Добавить трату за любой день этого месяца или любого другого дня
+    public static void addExpenseAnyDay(int flag ,Expenses expenses){
+        LocalDate date;
+        if (flag == 1) {
+            date = LocalDate.now();
+            System.out.println("За какой день этого месяца вы хотите ввести расходы?");
+            date = dateReturn(SupportC.inLine());
+        }
+        else {
+
+            String dateS = SupportC.inLine();
+            while(!SupportC.isDate_ddmm(dateS) && !SupportC.isDate_ddmmuuuu(dateS)){
+                System.out.println("Вы ввели невалидный вариант. попробуйте снова");
+                System.out.println("Например, подходящие варианты 11 01 (11 января) 11 05 2022 и тд.");
+                dateS = SupportC.inLine();
+            }
+            if (SupportC.isDate_ddmm(dateS))
+                date = LocalDate.parse(dateS + " " + LocalDate.now().getYear(), DateTimeFormatter.ofPattern("dd MM uuuu"));
+            else
+                date = LocalDate.parse(dateS , DateTimeFormatter.ofPattern("dd MM uuuu"));
+
+        }
+        System.out.println("Трату какой категории хотите добавить?");
+        SearchTypeExp(expenses);
+        byte command = SupportC.take_command_and_check(expenses.getTypesOfExpens().size());
+        String type = expenses.getTypesOfExpens().get(command-1);
+        System.out.println("Сколько вы потратили?");
+        double cost = SupportC.isSumm();
+        expenses.setNewExpens(expenses.new Expense(date, type, cost ));
+        System.out.println("Отлично! Ваш расход добавлен!");
+        System.out.println(date + " " + type + " " + cost);
+    }
+
+    //Ввод дня текущего месяца с клавиатуры с проверками
+    public static LocalDate dateReturn(String dateS){
+        LocalDate date = LocalDate.now();
+        while (true) {
+            if (!SupportC.isDigit(dateS)) {
+                System.out.println("Значение не является числом. Введите подходящее значение.");
+                dateS = SupportC.inLine();
+            }
+            else {
+                int day = Integer.parseInt(dateS);
+                //System.out.println(date.getDayOfMonth() + "   " + date.lengthOfMonth());
+                if (day <= 0 || date.getDayOfMonth() < day ){
+                    System.out.println("Значение выходит за диапазон текущего месяца");
+                    dateS = SupportC.inLine();
+                }
+                else return date.withDayOfMonth(day);
+            }
+
+        }
+    }
+
+    public static LocalDate dateReturnAnyDate(String dateS){
+        LocalDate date = LocalDate.now();
+        while (true) {
+            if (!SupportC.isDigit(dateS)) {
+                System.out.println("Значение не является числом. Введите подходящее значение.");
+                dateS = SupportC.inLine();
+            }
+            else {
+                int day = Integer.parseInt(dateS);
+                //System.out.println(date.getDayOfMonth() + "   " + date.lengthOfMonth());
+                if (day <= 0 || date.getDayOfMonth() < day ){
+                    System.out.println("Значение выходит за диапазон текущего месяца");
+                    dateS = SupportC.inLine();
+                }
+                else return date.withDayOfMonth(day);
+            }
+
+        }
+    }
 
 
-
+    //Вывести все расходы пользователя
+    public static void printAllExpenses(Expenses expenses){
+        for (int i = 0; i < expenses.getExpenses().size(); i++){
+            Expenses.Expense expense = expenses.getExpenses().get(i);
+            System.out.println((i+1) +". "+ expense.getDate() +"___"+ expense.getType() +"___" + expense.getCoast());
+        }
+    }
 
 }

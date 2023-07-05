@@ -1,4 +1,6 @@
 package org.example;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class SupportC {
@@ -34,6 +36,29 @@ public class SupportC {
             return false;
         }
     }
+
+    public static boolean isDate_ddmm(String s) throws NumberFormatException {
+        if (s.length() != 5)
+            return false;
+        try {
+            LocalDate.parse(s + " " + LocalDate.now().getYear(), DateTimeFormatter.ofPattern("dd MM uuuu"));
+
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    public static boolean isDate_ddmmuuuu(String s) throws NumberFormatException {
+        if (s.length() !=10)
+            return false;
+        try {
+            LocalDate.parse(s , DateTimeFormatter.ofPattern("dd MM uuuu"));
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 
     //Проверка, является ли строка числом интовым
     public static boolean isDigit(String s) throws NumberFormatException {
