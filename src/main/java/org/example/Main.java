@@ -107,8 +107,8 @@ public class Main {
                 else if (command == 2)
                     addExpenseAnyDay(1, user.expenses);
                 else {
-                    System.out.println("Какую дату хотите ввести? \n(Формат даты dd.mm если дата текущего года, если нет, то dd mm yyyy или dd mm, год текущий)");
-                    System.out.println("Например, подходящие варианты 11.01 (11 января) 11.05.2022 и тд.");
+                    System.out.println("Какую дату хотите ввести? \n(Формат даты dd mm если дата текущего года, если нет, то dd mm yyyy )");
+                    System.out.println("Например, подходящие варианты 11 01 (11 января) 11 05 2022 и тд.");
                     addExpenseAnyDay(2, user.expenses);
                     System.out.println();
                 }
@@ -179,8 +179,12 @@ public class Main {
                 //Изменение даты у выбранной позиции
                 case 3: {
                     System.out.println("На какаю дату вы хотите изменить текущую дату?");
+                    System.out.println("Формат даты dd mm если дата текущего года, если нет, то dd mm yyyy ");
+                    System.out.println("Например, подходящие варианты 11 01 (11 января) 11 05 2022 и тд.");
                     System.out.println();
-
+                    String dateS = SupportC.inLine();
+                    LocalDate date = dateReturnAnyDate(dateS);
+                    user.expenses.getExpenses().get(nomberOfPozition).setDate(date);
 
                 }
 
@@ -230,18 +234,8 @@ public class Main {
             date = dateReturn(SupportC.inLine());
         }
         else {
-
             String dateS = SupportC.inLine();
-            while(!SupportC.isDate_ddmm(dateS) && !SupportC.isDate_ddmmuuuu(dateS)){
-                System.out.println("Вы ввели невалидный вариант. попробуйте снова");
-                System.out.println("Например, подходящие варианты 11 01 (11 января) 11 05 2022 и тд.");
-                dateS = SupportC.inLine();
-            }
-            if (SupportC.isDate_ddmm(dateS))
-                date = LocalDate.parse(dateS + " " + LocalDate.now().getYear(), DateTimeFormatter.ofPattern("dd MM uuuu"));
-            else
-                date = LocalDate.parse(dateS , DateTimeFormatter.ofPattern("dd MM uuuu"));
-
+            date = dateReturnAnyDate(dateS);
         }
         System.out.println("Трату какой категории хотите добавить?");
         SearchTypeExp(expenses);
@@ -274,25 +268,19 @@ public class Main {
 
         }
     }
-
+    //Ввод даты в корректном формате
     public static LocalDate dateReturnAnyDate(String dateS){
-        LocalDate date = LocalDate.now();
-        while (true) {
-            if (!SupportC.isDigit(dateS)) {
-                System.out.println("Значение не является числом. Введите подходящее значение.");
-                dateS = SupportC.inLine();
-            }
-            else {
-                int day = Integer.parseInt(dateS);
-                //System.out.println(date.getDayOfMonth() + "   " + date.lengthOfMonth());
-                if (day <= 0 || date.getDayOfMonth() < day ){
-                    System.out.println("Значение выходит за диапазон текущего месяца");
-                    dateS = SupportC.inLine();
-                }
-                else return date.withDayOfMonth(day);
-            }
-
+        LocalDate date;
+        while(!SupportC.isDate_ddmm(dateS) && !SupportC.isDate_ddmmuuuu(dateS)){
+            System.out.println("Вы ввели невалидный вариант. попробуйте снова");
+            System.out.println("Например, подходящие варианты 11 01 (11 января) 11 05 2022 и тд.");
+            dateS = SupportC.inLine();
         }
+        if (SupportC.isDate_ddmm(dateS))
+            date = LocalDate.parse(dateS + " " + LocalDate.now().getYear(), DateTimeFormatter.ofPattern("dd MM uuuu"));
+        else
+            date = LocalDate.parse(dateS , DateTimeFormatter.ofPattern("dd MM uuuu"));
+        return  date;
     }
 
 
