@@ -2,17 +2,30 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Users {
     private ArrayList<User> users;
-
+    private File usersFile;
 
 
     public Users(){
         this.users = new ArrayList<User>();
+        usersFile = new File("users.txt");
+        if(!usersFile.exists()) {
+            try {
+                System.out.println("Создан файл с пользователями!");
+                usersFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
     }
 
     public  ArrayList<User> get_users() {
